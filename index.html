@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuickDeli | Instant Delivery Partner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
+  <style>
+   body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #FFFFFF;
+      transition: background 0.5s, color 0.5s;
+    }
+    body.light-mode {
+      background: linear-gradient(135deg, #FFFFFF, #E0E0E0);
+      color: #1A1A1A;
+    }
+    
+    /* Main container for 70% width */
+    .main-container {
+      width: 70%;
+      margin: 0 auto;
+    }
+    
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(13, 13, 13, 0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      z-index: 10;
+      border-bottom: 2px solid rgba(0,255,255,0.4);
+      width: 100%;
+      left: 0;
+      box-sizing: border-box;
+    }
+    body.light-mode header {
+      background: rgba(255, 255, 255, 0.8);
+    }
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #00FFFF;
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    header img.logo {
+      width: 40px;
+      height: 40px;
+      margin-right: 0.5rem;
+    }
+    nav a {
+      margin: 0 1rem;
+      color: inherit;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: #00FFFF;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    nav a:hover::after {
+      transform: scaleX(1);
+    }
+    .toggle-mode {
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      background-color: #ffffff;
+      color: #0D0D0D;
+      font-weight: bold;
+      border: none;
+    }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 2rem;
+    background: linear-gradient(-45deg, #4b6cb7, #182848, #0f2027, #2c5364, #203a43, #6a3093, #24243e, #3a1c71, #d76d77, #ffaf7b);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+  }
+  
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Fix for section animations */
+  section {
+    opacity: 1; /* Start visible instead of hidden */
+    transform: translateY(0); /* Start at original position */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+  
+  /* Modify the in-view class to trigger when scrolled into view */
+  section.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Fix the crazyScroll animation */
+  @keyframes crazyScroll {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
+  
+  /* Fix the neonBorder animation */
+  @keyframes neonBorder {
+    0% { border-color: rgba(0, 255, 255, 0.4); }
+    50% { border-color: rgba(0, 255, 255, 1); }
+    100% { border-color: rgba(0, 255, 255, 0.4); }
+  }
+  
+  /* Fix fadeInDown and fadeInUp animations */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Fix modalFadeIn animation */
+  @keyframes modalFadeIn {
+    from {opacity: 0; transform: translateY(-50px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  
+  /* Ensure section h2 animations work */
+  section h2 {
+    animation: crazyScroll 2s ease-in-out;
+  }
+
+
+    .hero h2 {
+      font-size: 3rem;
+      color: #00FFFF;
+      margin-bottom: 1rem;
+      font-family: 'Orbitron', sans-serif;
+      animation: fadeInDown 1s ease-out;
+      font-weight: bold;
+    }
+    .hero p {
+      max-width: 600px;
+      color: #D3D3D3;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      animation: fadeInUp 1.2s ease-out;
+    }
+    .cta-buttons a {
+      margin: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: 24px;
+      background-color: #00FFFF;
+      color: #0D0D0D;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .cta-buttons a:hover {
+      box-shadow: 0 0 12px #00FFFF;
+    }
+    section {
+      padding: 4rem 2rem;
+      text-align: center;
+      border: 2px solid #00FFFF; /* Neon border color */
+      border-radius: 24px;
+      margin: 2rem 0;
+      background: rgba(255, 190, 68, 0.918); /* Changed background color to orange */
+      backdrop-filter: blur(8px);
+      transition: background 0.5s, border 0.5s;
+      animation: neonBorder 1.5s infinite alternate; /* Neon border animation */
+    }
+
+
+  @keyframes neonBorder {
+    0% { 
+      border-color: rgba(0, 255, 255, 0.247); 
+      box-shadow: 0 0 5px rgba(0, 255, 255, 0.4), inset 0 0 5px rgba(0, 255, 255, 0.4);
+    }
+    50% { 
+      border-color: rgba(0, 255, 255, 1); 
+      box-shadow: 0 0 20px rgba(20, 255, 137, 0.484), inset 0 0 10px rgba(0, 255, 255, 0.8);
+    }
+    100% { 
+      border-color: rgba(0, 255, 255, 0.4); 
+      box-shadow: 0 0 5px rgba(0, 132, 255, 0.34), inset 0 0 5px rgba(0, 255, 255, 0.4);
+    }
+  }
+  
+  /* Apply the enhanced glow to sections */
+  section {
+    animation: neonBorder 1.5s infinite alternate;
+  }
+
+
+    section h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      
+      animation: crazyScroll 1s ease-in-out; /* Changed to ease-in-out for smoother animation */
+    }
+  
+    /* New scroll animation for sections */
+    section {
+      opacity: 0; /* Start hidden */
+      transform: translateY(20px); /* Start slightly below */
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Transition for smooth effect */
+    }
+
+    /* Class to apply when section is in view */
+    .in-view {
+      opacity: 1; /* Fully visible */
+      transform: translateY(0); /* Move to original position */
+    }
+
+    @keyframes crazyScroll {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0); }
+    }
+    #features { background: rgba(30, 60, 114, 0.2); border-color: #1e3c72; }
+    #partners { background: rgba(47, 79, 79, 0.2); border-color: #2c5364; }
+    #how-it-works { background: rgba(66, 39, 90, 0.2); border-color: #734b6d; }
+    #pricing { background: rgba(41, 128, 185, 0.2); border-color: #2980b9; }
+    #faq { background: rgba(247, 151, 30, 0.2); border-color: #f7971e; }
+    .features, .partners {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .feature-card, .partner-card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feature-card:hover, .partner-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 0 12px #00FFFF;
+    }
+    .partner-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 0.5rem;
+    }
+    .partner-card h3 {
+      margin: 0.5rem 0;
+      font-weight: bold;
+    }
+    .partner-card p {
+      font-size: 0.9rem;
+      color: #D3D3D3;
+    }
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 1.5rem;
+    }
+    .signup-form input {
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border-radius: 12px;
+      border: none;
+      width: 250px;
+      display: block;
+    }
+    .signup-form button {
+      padding: 0.8rem 1.5rem;
+      background-color: #39FF14;
+      border: none;
+      border-radius: 24px;
+      font-weight: bold;
+      color: #0D0D0D;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-top: 2px solid rgba(0,255,255,0.4);
+      width: 100%;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    footer {
+  text-align: center;
+  padding: 3rem 2rem 1rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-top: 2px solid rgba(0,255,255,0.4);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.footer-section h3 {
+  color: #00FFFF;
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 1rem;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-section a:hover {
+  color: #00FFFF;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.newsletter-form input {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+}
+
+.newsletter-form button {
+  padding: 0.5rem;
+  background-color: #00FFFF;
+  color: #0D0D0D;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.footer-bottom {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.footer-links a {
+  color: #AAAAAA;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+  color: #00FFFF;
+}
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: rgba(13, 13, 13, 0.9);
+  border: 2px solid #00FFFF;
+  border-radius: 24px;
+  margin: 10% auto;
+  padding: 2rem;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  animation: modalFadeIn 0.4s;
+  position: relative;
+}
+
+@keyframes modalFadeIn {
+  from {opacity: 0; transform: translateY(-50px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+.close-button:hover {
+  color: #00FFFF;
+}
+
+.modal-form {
+  margin-top: 1.5rem;
+}
+
+body.light-mode .modal-content {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1A1A1A;
+}
+/* General section improvements */
+.section-intro {
+  max-width: 700px;
+  margin: 0 auto 2.5rem;
+  font-size: 1.1rem;
+  color: #E0E0E0;
+}
+
+body.light-mode .section-intro {
+  color: #2b2b2b;
+}
+
+/* Feature section improvements */
+.feature-icon {
+  background: rgba(0, 255, 255, 0.1);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  border: 2px solid rgba(0, 255, 255, 0.3);
+}
+
+.feature-card {
+  padding: 2.5rem 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feature-card h3 {
+  color: #00FFFF;
+  margin: 0.5rem 0;
+  font-weight: bold;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.feature-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+
+/* Partners section improvements */
+/* Partners section improvements */
+.partners {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.partner-card {
+  position: relative;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.partner-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  border-color: rgba(0, 255, 255, 0.3);
+}
+
+.partner-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #00FFFF;
+  color: #0D0D0D;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.partner-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #00FFFF;
+  margin-bottom: 1rem;
+}
+
+.partner-card h3 {
+  color: #00FFFF;
+  margin: 0.8rem 0;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+}
+
+.partner-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0.8rem 0;
+}
+
+.partner-stats span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.partner-stats img, 
+.partner-distance img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+.partner-distance, .partner-availability {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.partner-availability {
+  color: #39FF14;
+  font-weight: bold;
+}
+
+.partner-contact {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: #00FFFF;
+  color: #0D0D0D;
+  border-radius: 24px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.partner-contact:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 12px #00FFFF;
+}
+
+.view-more-btn {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.8rem 1.5rem;
+  background: rgba(0, 255, 255, 0.2);
+  color: #00FFFF;
+  border: 1px solid #00FFFF;
+  border-radius: 24px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.view-more-btn:hover {
+  background: rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+}
+
+/* How It Works section improvements */
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-10px);
+}
+
+.step-number {
+  position: absolute;
+  top: -20px;
+  background: #00FFFF;
+  color: #0D0D0D;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.step-icon {
+  margin: 1rem 0;
+}
+
+.step h3 {
+  color: #00FFFF;
+  margin: 0.5rem 0;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.step p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.delivery-types {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+}
+
+.delivery-types h3 {
+  color: #00FFFF;
+  margin-bottom: 1rem;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.delivery-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.delivery-item {
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 24px;
+  font-size: 0.9rem;
+}
+
+/* Pricing section improvements */
+.pricing-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.pricing-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pricing-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  border-color: rgba(0, 255, 255, 0.3);
+}
+
+.pricing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.pricing-header h3 {
+  color: #00FFFF;
+  font-family: 'Orbitron', sans-serif;
+  margin: 0;
+}
+
+.pricing-badge {
+  background: #FF3366;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.pricing-amount {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.price {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #00FFFF;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.price-detail {
+  display: block;
+  font-size: 1rem;
+  color: #AAAAAA;
+}
+
+.pricing-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  flex-grow: 1;
+}
+
+.pricing-features li {
+  padding: 0.5rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+  text-align: left;
+}
+
+.pricing-features li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #00FFFF;
+}
+
+.pricing-btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background: #00FFFF;
+  color: #0D0D0D;
+  border-radius: 24px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.pricing-btn:hover {
+  box-shadow: 0 0 12px #00FFFF;
+}
+
+.pricing-note {
+  max-width: 700px;
+  margin: 2rem auto 0;
+  font-size: 0.9rem;
+  color: #AAAAAA;
+  text-align: center;
+}
+
+/* FAQ section improvements */
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.faq-question {
+  padding: 1.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.faq-question h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #00FFFF;
+  font-weight: normal;
+}
+
+.faq-toggle {
+  font-size: 1.5rem;
+  color: #00FFFF;
+}
+
+.faq-answer {
+  padding: 0 1.2rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-answer p {
+  margin: 0;
+  padding: 1rem 0;
+  line-height: 1.6;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 300px;
+  padding: 0 1.2rem 1.2rem;
+}
+
+.faq-item.active .faq-toggle {
+  transform: rotate(45deg);
+}
+
+.faq-more {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.signup-button {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: #39FF14;
+  border-radius: 24px;
+  font-weight: bold;
+  color: #0D0D0D;
+  cursor: pointer;
+  margin-top: 1rem;
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.signup-button:hover {
+  background-color: #2be010;
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.7);
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1><img src="https://img.icons8.com/ios-filled/50/00FFFF/delivery.png" alt="logo" class="logo">QuickDeli</h1>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#partners">Partners</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#signup">Login/Signup</a>
+      <button class="toggle-mode" onclick="toggleMode()">Toggle Mode</button>
+    </nav>
+  </header>
+
+  <div class="main-container">
+    <section class="hero in-view">
+      <h2>Find Your Delivery Partner Instantly</h2>
+      <p>Empowering local sellers to deliver without delay — fast, affordable, and nearby. Join the QuickDeli network today.</p>
+      <div class="cta-buttons">
+        <a href="#signup">You are a bussiness owner</a>
+        <a href="#signup">Become a partner</a>
+      </div>
+    </section>
+      <section id="features" class="in-view">
+        <h2>Why Choose QuickDeli?</h2>
+  
+        <div class="features">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="https://img.icons8.com/ios-filled/50/00FFFF/flash-on.png" alt="Instant">
+            </div>
+            <h3>Instant Matching</h3>
+            <p>Connect with available delivery partners in your area within seconds, not minutes. Our AI-powered matching ensures minimal wait times.</p>
+          </div>
+    
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="https://img.icons8.com/ios-filled/50/00FFFF/radar.png" alt="Tracking">
+            </div>
+            <h3>Real-Time Tracking</h3>
+            <p>Follow your package's journey with precision GPS tracking. Know exactly when your delivery will arrive with accurate ETAs.</p>
+          </div>
+    
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="https://img.icons8.com/ios-filled/50/00FFFF/chat.png" alt="Chat">
+            </div>
+            <h3>In-App Chat</h3>
+            <p>Communicate directly with your delivery partner through our secure messaging system. Send special instructions or updates in real-time.</p>
+          </div>
+        </div>
+  
+        <div class="features">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="https://img.icons8.com/ios-filled/50/00FFFF/secure-payment.png" alt="Payments">
+            </div>
+            <h3>Secure Payments</h3>
+            <p>Choose from multiple payment options with bank-grade encryption. Pay with confidence using cards, UPI, or wallet options.</p>
+          </div>
+    
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="https://img.icons8.com/ios-filled/50/00FFFF/star.png" alt="Ratings">
+            </div>
+            <h3>Ratings & Reviews</h3>
+            <p>Select delivery partners based on verified customer ratings. Our transparent review system helps you choose the best riders.</p>
+          </div>
+    
+          <div class="feature-card">
+            <div class="feature-icon">
+              <img src="https://img.icons8.com/ios-filled/50/00FFFF/price-tag.png" alt="Pricing">
+            </div>
+            <h3>Transparent Pricing</h3>
+            <p>No hidden fees or surprise charges. See the exact cost before confirming your delivery with our upfront pricing model.</p>
+          </div>
+        </div>
+      </section>
+      <section id="partners" class="in-view">
+        <h2>Top Delivery Partners Near You</h2>
+        <p class="section-intro">Our network of verified delivery partners are ready to serve you 24/7. Each partner is background-checked and trained to provide exceptional service.</p>
+        
+        <div class="partners">
+          <div class="partner-card">
+            <div class="partner-badge">Top Rated</div>
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Partner" class="partner-image">
+            <h3>Ramesh K.</h3>
+            <div class="partner-stats">
+              <span><img src="https://img.icons8.com/ios-filled/16/00FFFF/motorcycle.png" alt="Vehicle"> Bike</span>
+              <span><img src="https://img.icons8.com/ios-filled/16/00FFFF/star.png" alt="Rating"> 4.9 (203)</span>
+            </div>
+            <p class="partner-distance"><img src="https://img.icons8.com/ios-filled/16/00FFFF/marker.png" alt="Location"> 0.8 km away</p>
+            <p class="partner-availability">Available now</p>
+            <a href="tel:+919876543210" class="partner-contact">Contact Now</a>
+          </div>
+          
+          <div class="partner-card">
+            <div class="partner-badge">Express</div>
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Partner" class="partner-image">
+            <h3>Priya M.</h3>
+            <div class="partner-stats">
+              <span><img src="https://img.icons8.com/ios-filled/16/00FFFF/scooter.png" alt="Vehicle"> Scooter</span>
+              <span><img src="https://img.icons8.com/ios-filled/16/00FFFF/star.png" alt="Rating"> 4.8 (187)</span>
+            </div>
+            <p class="partner-distance"><img src="https://img.icons8.com/ios-filled/16/00FFFF/marker.png" alt="Location"> 1.2 km away</p>
+            <p class="partner-availability">Available now</p>
+            <a href="tel:+919812345678" class="partner-contact">Contact Now</a>
+          </div>
+          
+          <div class="partner-card">
+            <div class="partner-badge">Heavy Load</div>
+            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Partner" class="partner-image">
+            <h3>Vikram S.</h3>
+            <div class="partner-stats">
+              <span><img src="https://img.icons8.com/ios-filled/16/00FFFF/truck.png" alt="Vehicle"> Mini Truck</span>
+              <span><img src="https://img.icons8.com/ios-filled/16/00FFFF/star.png" alt="Rating"> 4.7 (156)</span>
+            </div>
+            <p class="partner-distance"><img src="https://img.icons8.com/ios-filled/16/00FFFF/marker.png" alt="Location"> 1.5 km away</p>
+            <p class="partner-availability">Available now</p>
+            <a href="tel:+919854321098" class="partner-contact">Contact Now</a>
+          </div>
+        </div>
+        
+        <a href="#signup" class="view-more-btn">View All Available Partners</a>
+      </section>
+      
+
+      <section id="how-it-works" class="in-view">
+        <h2>How QuickDeli Works</h2>
+        <p class="section-intro">Getting your items delivered is simple, fast, and hassle-free with our streamlined process.</p>
+        
+        <div class="process-steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-icon">
+              <img src="https://img.icons8.com/ios-filled/50/00FFFF/create-order.png" alt="Request">
+            </div>
+            <h3>Request a Delivery</h3>
+            <p>Enter pickup and drop-off locations, item details, and any special instructions through our app or website.</p>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-icon">
+              <img src="https://img.icons8.com/ios-filled/50/00FFFF/user-location.png" alt="Match">
+            </div>
+            <h3>Get Matched</h3>
+            <p>Our system instantly connects you with the nearest available delivery partner suited for your package type.</p>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-icon">
+              <img src="https://img.icons8.com/ios-filled/50/00FFFF/radar.png" alt="Track">
+            </div>
+            <h3>Track in Real-Time</h3>
+            <p>Follow your delivery's progress on the map with accurate ETAs and status updates throughout the journey.</p>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-icon">
+              <img src="https://img.icons8.com/ios-filled/50/00FFFF/card-payment.png" alt="Pay">
+            </div>
+            <h3>Secure Payment</h3>
+            <p>Pay only after successful delivery using your preferred payment method with complete security.</p>
+          </div>
+        </div>
+        
+        <div class="delivery-types">
+          <h3>We Deliver Almost Everything</h3>
+          <div class="delivery-items">
+            <span class="delivery-item">Food & Groceries</span>
+            <span class="delivery-item">Documents</span>
+            <span class="delivery-item">Retail Packages</span>
+            <span class="delivery-item">Gifts & Flowers</span>
+            <span class="delivery-item">Electronics</span>
+            <span class="delivery-item">Medical Supplies</span>
+          </div>
+        </div>
+      </section>
+      
+
+    <section id="signup" class="in-view">
+      <h2 style="width: 300px; margin: 0 auto; animation: crazyScroll 1s infinite;">Get Started with QuickDeli</h2>
+
+      <p>Join our growing network of local sellers and delivery partners. Sign up now to experience hassle-free, fast delivery at your fingertips.</p>
+      <div class="signup-form">
+        <input type="email" placeholder="Email Address" >
+        <input type="password" placeholder="Password" >
+        <a href="/dashboard.html"><button>Sign Up</button></a>
+      </div>
+      <p>Already have an account? <a href="/dashboard.html" style="color:#00FFFF;">Login here</a></p>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>QuickDeli</h3>
+        <p>Fast, reliable delivery at your fingertips.</p>
+        <div class="social-icons">
+          <a href="#"><img src="https://img.icons8.com/ios-filled/25/FFFFFF/facebook-new.png" alt="Facebook"></a>
+          <a href="#"><img src="https://img.icons8.com/ios-filled/25/FFFFFF/instagram-new.png" alt="Instagram"></a>
+          <a href="#"><img src="https://img.icons8.com/ios-filled/25/FFFFFF/twitter.png" alt="Twitter"></a>
+          <a href="#"><img src="https://img.icons8.com/ios-filled/25/FFFFFF/linkedin.png" alt="LinkedIn"></a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#partners">Partners</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <p><img src="https://img.icons8.com/ios-filled/20/FFFFFF/marker.png" alt="Location"> 123 Delivery Street, City</p>
+        <p><img src="https://img.icons8.com/ios-filled/20/FFFFFF/phone.png" alt="Phone"> +91 9876543210</p>
+        <p><img src="https://img.icons8.com/ios-filled/20/FFFFFF/mail.png" alt="Email"> support@quickdeli.com</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Newsletter</h3>
+        <p>Subscribe for updates and offers</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Your email">
+          <button>Subscribe</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2025 QuickDeli. All Rights Reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </footer>
+  <div id="signup-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">×</span>
+      <h2>Sign Up for QuickDeli</h2>
+      <div class="signup-form modal-form">
+        <input type="email" placeholder="Email Address" required>
+        <input type="password" placeholder="Password" required>
+        <a href="/dashboard.html" class="signup-button">Sign Up</a>
+      </div>
+      <p>Already have an account? <a href="#" id="switch-to-login" style="color:#00FFFF;">Login here</a></p>
+    </div>
+  </div>
+  
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">×</span>
+      <h2>Login to QuickDeli</h2>
+      <div class="signup-form modal-form">
+        <input type="email" placeholder="Email Address" required>
+        <input type="password" placeholder="Password" required>
+        <a href="/dashboard.html" class="signup-button">Login</a>
+      </div>
+      <p>Don't have an account? <a href="#" id="switch-to-signup" style="color:#00FFFF;">Sign up here</a></p>
+    </div>
+  </div>
+  <script>
+    // Function to check if an element is in the viewport
+    function isInViewport(element) {
+      const rect = element.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      );
+    }
+
+    // Function to add 'in-view' class to sections when they are in the viewport
+    function handleScroll() {
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        if (isInViewport(section)) {
+          section.classList.add('in-view');
+        }
+      });
+    }
+
+    // Event listener for scroll
+    window.addEventListener('scroll', handleScroll);
+    // Initial check
+    handleScroll();
+
+    function toggleMode() {
+      document.body.classList.toggle('light-mode');
+    }
+    // Get the modal elements
+const signupModal = document.getElementById('signup-modal');
+const loginModal = document.getElementById('login-modal');
+const navSignupLink = document.querySelector('nav a[href="#signup"]');
+
+// Get the close buttons
+const closeButtons = document.querySelectorAll('.close-button');
+
+// Get the switch links
+const switchToLogin = document.getElementById('switch-to-login');
+const switchToSignup = document.getElementById('switch-to-signup');
+
+// When the user clicks on the signup link in the navbar
+navSignupLink.addEventListener('click', function(event) {
+  event.preventDefault();
+  signupModal.style.display = 'block';
+});
+
+// When the user clicks on the switch to login link
+switchToLogin.addEventListener('click', function(event) {
+  event.preventDefault();
+  signupModal.style.display = 'none';
+  loginModal.style.display = 'block';
+});
+
+// When the user clicks on the switch to signup link
+switchToSignup.addEventListener('click', function(event) {
+  event.preventDefault();
+  loginModal.style.display = 'none';
+  signupModal.style.display = 'block';
+});
+
+// When the user clicks on a close button
+closeButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    signupModal.style.display = 'none';
+    loginModal.style.display = 'none';
+  });
+});
+
+// When the user clicks anywhere outside of the modal
+window.addEventListener('click', function(event) {
+  if (event.target == signupModal) {
+    signupModal.style.display = 'none';
+  }
+  if (event.target == loginModal) {
+    loginModal.style.display = 'none';
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Create a new style element with improved animation settings
+  const styleElement = document.createElement('style');
+  styleElement.textContent = `
+    /* Reset section animations to ensure they start hidden */
+    section:not(.hero) {
+      opacity: 0;
+      transform: translateY(50px); /* Increased for more noticeable effect */
+      transition: opacity 1s ease-out, transform 1s ease-out;
+      will-change: opacity, transform; /* Performance optimization */
+    }
+    
+    /* Make sure hero is always visible */
+    section.hero {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+    
+    /* When section comes into view */
+    section.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  `;
+  document.head.appendChild(styleElement);
+  
+  // Better function to check if an element is in the viewport
+  function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    // Element is considered in view when its top is in the bottom 70% of the screen
+    return (rect.top <= windowHeight * 0.7);
+  }
+
+  // Function to add 'in-view' class to sections
+  function animateSections() {
+    const sections = document.querySelectorAll('section:not(.in-view)');
+    sections.forEach(section => {
+      if (isInViewport(section)) {
+        // Add a small delay for each section to create a cascade effect
+        setTimeout(() => {
+          section.classList.add('in-view');
+        }, 100);
+      }
+    });
+  }
+
+  // Make sure hero section is always visible
+  document.querySelector('.hero').classList.add('in-view');
+  
+  // Run once on page load
+  animateSections();
+
+  // Add scroll event listener with proper debouncing
+  let scrolling = false;
+  window.addEventListener('scroll', function() {
+    if (!scrolling) {
+      scrolling = true;
+      // Use requestAnimationFrame for smoother performance
+      window.requestAnimationFrame(function() {
+        animateSections();
+        scrolling = false;
+      });
+    }
+  });
+  
+  // Force check after images and other resources have loaded
+  window.addEventListener('load', function() {
+    animateSections();
+    // Trigger another check after a short delay
+    setTimeout(animateSections, 500);
+  });
+});
+// Add this to the animateSections function
+function animateSections() {
+  const sections = document.querySelectorAll('section:not(.in-view)');
+  let animatedCount = 0;
+  
+  sections.forEach(section => {
+    if (isInViewport(section)) {
+      animatedCount++;
+      setTimeout(() => {
+        section.classList.add('in-view');
+        console.log('Animated section:', section.id || 'unnamed section');
+      }, 100);
+    }
+  });
+  
+  if (animatedCount > 0) {
+    console.log(`Animated ${animatedCount} new sections`);
+  }
+}
+
+
+  </script>
+</body>
+</html>

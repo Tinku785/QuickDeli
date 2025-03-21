@@ -1,0 +1,147 @@
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+  /* Main container */
+  .main-container {
+    width: 95%;
+  }
+  
+  /* Header */
+  header {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  header h1 {
+    margin-bottom: 1rem;
+  }
+  
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  nav a {
+    margin: 0.3rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Hero section */
+  .hero {
+    padding: 3rem 1rem;
+  }
+  
+  .hero h2 {
+    font-size: 2rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+  }
+  
+  .cta-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .cta-buttons a {
+    width: 100%;
+    margin: 0.5rem 0;
+    text-align: center;
+  }
+  
+  /* Sections */
+  section {
+    padding: 2rem 1rem;
+    margin: 1rem 0;
+  }
+  
+  section h2 {
+    font-size: 1.5rem;
+  }
+  
+  /* Features and Partners */
+  .features, .partners {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  /* Process steps */
+  .process-steps {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Pricing cards */
+  .pricing-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Footer */
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .social-icons {
+    justify-content: center;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  /* Modal */
+  .modal-content {
+    width: 90%;
+    padding: 1.5rem;
+  }
+  
+  /* Mobile menu toggle */
+  .mobile-menu-toggle {
+    display: block;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #00FFFF;
+  }
+  
+  /* Mobile navigation */
+  .mobile-nav {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mobile-nav.active {
+    display: flex;
+  }
+  
+  /* Hide desktop nav on mobile */
+  @media screen and (max-width: 768px) {
+    nav:not(.mobile-nav) {
+      display: none;
+    }
+  }
+}
+
+/* Small mobile devices */
+@media screen and (max-width: 480px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .hero h2 {
+    font-size: 1.8rem;
+  }
+  
+  .feature-card, .partner-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .signup-form input {
+    width: 100%;
+  }
+}

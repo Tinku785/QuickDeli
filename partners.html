@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Find Delivery Partner - QuickDeli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #FFFFFF;
+            transition: background 0.5s, color 0.5s;
+            overflow-x: hidden;
+        }
+        
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(13, 13, 13, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            z-index: 10;
+            border-bottom: 2px solid rgba(0,255,255,0.4);
+            width: 100%;
+            left: 0;
+            box-sizing: border-box;
+        }
+        
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #00FFFF;
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        header img.logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 0.5rem;
+        }
+        
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        nav a {
+            margin: 0 1rem;
+            color: inherit;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #00FFFF;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .logout {
+            background: #00FFFF;
+            color: #0D0D0D;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+        
+        .logout:hover {
+            box-shadow: 0 0 12px #00FFFF;
+            transform: translateY(-3px);
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .container h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #00FFFF;
+            animation: fadeInDown 1s ease;
+        }
+        
+        .container p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .search-box {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0.5rem;
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+        
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .search-box button {
+            background: #00FFFF;
+            color: #0D0D0D;
+            border: none;
+            border-radius: 50px;
+            padding: 0.8rem 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box button:hover {
+            background: #00e0e0;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+        
+        .searching {
+            margin: 2rem 0;
+            font-size: 1.5rem;
+            color: #00FFFF;
+            animation: pulseText 2s infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .searching .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #00FFFF;
+            margin: 1rem 0;
+            animation: spin 1s infinite linear;
+        }
+        
+        .partner-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .partner-card {
+            position: relative;
+            padding-top: 120px; /* Ensure space for the header */
+            margin-top: 50px; /* Add space for the avatar to overflow */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            animation: fadeInUp 0.8s ease backwards;
+        }
+        
+        .partner-card:nth-child(odd) {
+            animation-delay: 0.2s;
+        }
+        
+        .partner-card:nth-child(even) {
+            animation-delay: 0.4s;
+        }
+        
+        .partner-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 255, 255, 0.6);
+        }
+        
+        .partner-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(135deg, #00FFFF, #0077ff);
+            overflow: hidden;
+        }
+        
+        .partner-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1519003722824-194d4455a60c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGF0dGVybnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60') center/cover;
+            opacity: 0.2;
+        }
+        
+        .partner-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #FF3366;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 1;
+        }
+        
+        .partner-avatar {
+            position: absolute;
+            top: 70px; /* Position relative to the card, not the header */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid #00FFFF;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            transition: all 0.3s ease;
+            object-fit: cover;
+        }
+        
+        .partner-card:hover .partner-avatar {
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.4);
+        }
+        
+        .partner-info {
+            padding-top: 60px; /* Space for the avatar */
+            text-align: center;
+            background: transparent;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .partner-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: #00FFFF;
+            margin: 0 0 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .partner-rating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .partner-rating .stars {
+            color: #FFD700;
+            margin-right: 0.5rem;
+        }
+        
+        .partner-details {
+            margin: 1rem 0;
+        }
+        
+        .partner-details p {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+        }
+        
+        .partner-details p svg {
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+        
+        .partner-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .status-available {
+            background: rgba(57, 255, 20, 0.2);
+            color: #39FF14;
+            border: 1px solid rgba(57, 255, 20, 0.4);
+        }
+        
+        .status-busy {
+            background: rgba(255, 51, 102, 0.2);
+            color: #FF3366;
+            border: 1px solid rgba(255, 51, 102, 0.4);
+        }
+        
+        .status-away {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+            border: 1px solid rgba(255, 193, 7, 0.4);
+        }
+        
+        .partner-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+        
+        .call-btn, .message-btn {
+            flex: 1;
+            padding: 0.8rem 0;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .call-btn {
+            background: #00FFFF;
+            color: #0D0D0D;
+            border-bottom-left-radius: 20px;
+            margin-right: 1px;
+        }
+           
+        
+        
+        .message-btn {
+            background: rgba(0, 255, 255, 0.2);
+            color: #00FFFF;
+            border-bottom-right-radius: 20px;
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-bottom: none;
+            border-right: none;
+        }
+        
+        .call-btn:hover {
+            background: #00e0e0;
+            box-shadow: 0 -5px 15px rgba(0, 255, 255, 0.4);
+        }
+        
+        .message-btn:hover {
+            background: rgba(0, 255, 255, 0.3);
+            box-shadow: 0 -5px 15px rgba(0, 255, 255, 0.2);
+        }
+        
+        .call-btn svg, .message-btn svg {
+            margin-right: 0.5rem;
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00FFFF;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .load-more {
+            background: rgba(0, 255, 255, 0.2);
+            color: #00FFFF;
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+            display: inline-block;
+        }
+        
+        .load-more:hover {
+            background: rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+            transform: translateY(-5px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 3rem 2rem 1rem;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-top: 2px solid rgba(0,255,255,0.4);
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 3rem;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            color: #00FFFF;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: #00FFFF;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .newsletter-form input {
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: none;
+        }
+        
+        .newsletter-form button {
+            padding: 0.5rem;
+            background-color: #00FFFF;
+            color: #0D0D0D;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: #AAAAAA;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            color: #00FFFF;
+        }
+        
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulseText {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(0, 255, 255, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(0, 255, 255, 0.5); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+            
+            nav {
+                display: none;
+            }
+            
+            .partner-list {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        .call-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.call-content {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0,255,255,0.3);
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0,255,255,0.2);
+    backdrop-filter: blur(12px);
+    animation: fadeInUp 0.5s ease;
+    max-width: 400px;
+    width: 90%;
+}
+
+.call-logo {
+    width: 80px;
+    animation: float 2s infinite ease-in-out;
+    margin-bottom: 1rem;
+}
+
+.calling-animation {
+    width: 60px;
+    height: 60px;
+    margin: 1rem auto;
+    border: 6px solid rgba(0,255,255,0.3);
+    border-top: 6px solid #00FFFF;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+#trackingCode {
+    font-weight: bold;
+    margin-top: 0.5rem;
+    color: #00FFFF;
+}
+
+#closeModalBtn {
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #00FFFF;
+    color: #0d0d0d;
+    transition: 0.3s;
+}
+
+#closeModalBtn:hover {
+    background: #00e0e0;
+    box-shadow: 0 0 10px rgba(0,255,255,0.5);
+}
+#trackBtn {
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #00FFFF;
+    color: #0d0d0d;
+    transition: 0.3s;
+    animation: glow 1.5s infinite;
+}
+#trackBtn:hover {
+    background: #00e0e0;
+    box-shadow: 0 0 12px rgba(0,255,255,0.5);
+}
+
+/* Hamburger menu styles */
+.hamburger-menu {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    right: 2rem;
+    top: 1.5rem;
+    z-index: 100;
+}
+
+.hamburger-menu div {
+    width: 30px;
+    height: 3px;
+    background-color: #00FFFF;
+    margin: 6px 0;
+    transition: 0.4s;
+    border-radius: 2px;
+}
+
+/* Mobile responsive styles */
+@media screen and (max-width: 768px) {
+    /* Hamburger menu */
+    .hamburger-menu {
+        display: block;
+    }
+    
+    /* Transform hamburger to X when active */
+    .hamburger-menu.active .bar1 {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    
+    .hamburger-menu.active .bar2 {
+        opacity: 0;
+    }
+    
+    .hamburger-menu.active .bar3 {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+    
+    /* Mobile navigation */
+    header {
+        padding: 1rem;
+    }
+    
+    header nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        background: rgba(13, 13, 13, 0.95);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: 0.5s;
+        z-index: 99;
+    }
+    
+    header nav.active {
+        right: 0;
+    }
+    
+    nav a {
+        margin: 1.5rem 0;
+        font-size: 1.2rem;
+    }
+    
+    .logout {
+        margin: 1.5rem 0;
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hamburger-menu" id="hamburger-menu">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+        <h1><img src="https://img.icons8.com/ios-filled/50/00FFFF/delivery.png" alt="logo" class="logo">QuickDeli</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="partners.html">Partners</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <button class="logout" onclick="logout()">Logout</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Available Delivery Partners Near You</h2>
+        <p>Connect with our verified delivery partners who are ready to pick up your packages. All partners are background-checked and trained to provide exceptional service.</p>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" placeholder="Search by location, vehicle type, or name...">
+                <button>Search</button>
+            </div>
+        </div>
+        
+        <div class="filters">
+            <button class="filter-btn active">All Partners</button>
+            <button class="filter-btn">Bike</button>
+            <button class="filter-btn">Scooter</button>
+            <button class="filter-btn">Car</button>
+            <button class="filter-btn">Mini Truck</button>
+            <button class="filter-btn">Available Now</button>
+        </div>
+        
+        <div class="searching" id="searching">
+            <div class="loader"></div>
+            Searching for the best delivery partners near you...
+        </div>
+        
+        <div class="partner-list" id="partnerList" style="display: none;">
+            <!-- Partner cards will be added here -->
+        </div>
+        
+        <button class="load-more" id="loadMoreBtn" style="display: none;">Load More Partners</button>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>QuickDeli</h3>
+                <p>Fast, reliable delivery at your fingertips.</p>
+                <div class="social-icons">
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/25/FFFFFF/facebook-new.png" alt="Facebook"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/25/FFFFFF/instagram-new.png" alt="Instagram"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/25/FFFFFF/twitter.png" alt="Twitter"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/25/FFFFFF/linkedin.png" alt="LinkedIn"></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="partners.html">Partners</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><img src="https://img.icons8.com/ios-filled/20/FFFFFF/marker.png" alt="Location"> 123 Delivery Street, City</p>
+                <p><img src="https://img.icons8.com/ios-filled/20/FFFFFF/phone.png" alt="Phone"> +91 9876543210</p>
+                <p><img src="https://img.icons8.com/ios-filled/20/FFFFFF/mail.png" alt="Email"> support@quickdeli.com</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Subscribe for updates and offers</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Your email">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 QuickDeli. All Rights Reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
+
+   <!-- Calling Modal -->
+<div id="callModal" class="call-modal">
+    <div class="call-content">
+        <div style="position: relative; display: inline-block;">
+            <img id="partnerAvatar" src="" alt="Partner Avatar" class="call-logo" style="border-radius: 50%; border: 3px solid #00FFFF;"/>
+            <img src="https://img.icons8.com/ios-filled/30/00FFFF/phone.png" style="position: absolute; bottom: -10px; right: -10px; background: rgba(0,0,0,0.6); border-radius: 50%; padding: 5px;" />
+        </div>
+        <h2 id="callMessage">Calling...</h2>
+        <div class="calling-animation"></div>
+        <p id="trackingCode" style="display:none;">Tracking Code: #XXXXXX</p>
+        <button id="trackBtn" style="display:none;">Track Him</button>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    // Partner data array
+    const partners = [
+    {
+        id: 1,
+        name: "Ravi Sharma",
+        avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+        rating: 4.9,
+        reviews: 203,
+        phone: "9876543210",
+        area: "Downtown",
+        distance: "0.8 km",
+        vehicle: "Bike",
+        status: "available",
+        badge: "Top Rated"
+    },
+    {
+        id: 2,
+        name: "Anita Das",
+        avatar: "https://randomuser.me/api/portraits/women/45.jpg",
+        rating: 4.7,
+        reviews: 187,
+        phone: "9876501234",
+        area: "City Center",
+        distance: "1.2 km",
+        vehicle: "Scooter",
+        status: "available",
+        badge: "Express"
+    },
+    {
+        id: 3,
+        name: "Kunal Roy",
+        avatar: "https://randomuser.me/api/portraits/men/67.jpg",
+        rating: 4.8,
+        reviews: 156,
+        phone: "9876549876",
+        area: "North Side",
+        distance: "1.5 km",
+        vehicle: "Mini Truck",
+        status: "available",
+        badge: "Heavy Load"
+    },
+    {
+        id: 4,
+        name: "Suman Verma",
+        avatar: "https://randomuser.me/api/portraits/women/22.jpg",
+        rating: 4.6,
+        reviews: 142,
+        phone: "9876598765",
+        area: "East Side",
+        distance: "2.1 km",
+        vehicle: "Bike",
+        status: "busy",
+        badge: "Fast Delivery"
+    },
+    {
+        id: 5,
+        name: "Vikram Singh",
+        avatar: "https://randomuser.me/api/portraits/men/52.jpg",
+        rating: 4.9,
+        reviews: 231,
+        phone: "9876543211",
+        area: "South Side",
+        distance: "1.7 km",
+        vehicle: "Car",
+        status: "available",
+        badge: "Premium"
+    },
+    {
+        id: 6,
+        name: "Priya Mehta",
+        avatar: "https://randomuser.me/api/portraits/women/65.jpg",
+        rating: 4.8,
+        reviews: 178,
+        phone: "9876543212",
+        area: "West Side",
+        distance: "2.3 km",
+        vehicle: "Scooter",
+        status: "away",
+        badge: "Eco Friendly"
+    },
+    {
+        id: 7,
+        name: "Rahul Kapoor",
+        avatar: "https://randomuser.me/api/portraits/men/85.jpg",
+        rating: 4.7,
+        reviews: 165,
+        phone: "9876543213",
+        area: "Central Market",
+        distance: "1.9 km",
+        vehicle: "Bike",
+        status: "available",
+        badge: "New Partner"
+    },
+    {
+        id: 8,
+        name: "Neha Gupta",
+        avatar: "https://randomuser.me/api/portraits/women/33.jpg",
+        rating: 4.9,
+        reviews: 212,
+        phone: "9876543214",
+        area: "Business District",
+        distance: "2.5 km",
+        vehicle: "Car",
+        status: "available",
+        badge: "Premium"
+    },
+    {
+        id: 9,
+        name: "Amit Kumar",
+        avatar: "https://randomuser.me/api/portraits/men/42.jpg",
+        rating: 4.6,
+        reviews: 145,
+        phone: "9876543215",
+        area: "Tech Park",
+        distance: "3.2 km",
+        vehicle: "Bike",
+        status: "available",
+        badge: "Eco Friendly"
+    },
+    {
+        id: 10,
+        name: "Pooja Sharma",
+        avatar: "https://randomuser.me/api/portraits/women/28.jpg",
+        rating: 4.8,
+        reviews: 192,
+        phone: "9876543216",
+        area: "Mall Road",
+        distance: "2.8 km",
+        vehicle: "Scooter",
+        status: "available",
+        badge: "Fast Delivery"
+    },
+    {
+        id: 11,
+        name: "Rajesh Patel",
+        avatar: "https://randomuser.me/api/portraits/men/62.jpg",
+        rating: 4.7,
+        reviews: 168,
+        phone: "9876543217",
+        area: "Old Market",
+        distance: "3.5 km",
+        vehicle: "Mini Truck",
+        status: "busy",
+        badge: "Heavy Load"
+    },
+    {
+        id: 12,
+        name: "Meera Joshi",
+        avatar: "https://randomuser.me/api/portraits/women/56.jpg",
+        rating: 4.9,
+        reviews: 210,
+        phone: "9876543218",
+        area: "Lake View",
+        distance: "4.1 km",
+        vehicle: "Car",
+        status: "available",
+        badge: "Premium"
+    }
+        // You can add more partners as needed
+    ];
+    
+    // Create HTML for each partner card
+    function createPartnerCard(partner) {
+        return `
+        <div class="partner-card">
+            <div class="partner-header">
+                <div class="partner-badge">${partner.badge}</div>
+            </div>
+            <img src="${partner.avatar}" alt="${partner.name}" class="partner-avatar">
+            <div class="partner-info">
+                <h3>${partner.name}</h3>
+                <div class="partner-rating">
+                    <span class="stars">★ ${partner.rating}</span>
+                    <span>(${partner.reviews} reviews)</span>
+                </div>
+                <div class="partner-details">
+                    <p>${partner.area} (${partner.distance} away)</p>
+                    <p>${partner.vehicle}</p>
+                </div>
+                <span class="partner-status status-available">Available Now</span>
+                <div class="partner-actions">
+                    <button class="call-btn" onclick="callPartner('${partner.phone}', '${partner.name}', '${partner.avatar}')">
+                        📞 Call
+                    </button>
+                </div>
+            </div>
+        </div>`;
+    }
+    
+    // Show partner list after loader
+    window.onload = function() {
+        const searching = document.getElementById('searching');
+        const partnerList = document.getElementById('partnerList');
+    
+        setTimeout(() => {
+            searching.style.display = 'none';
+            partnerList.style.display = 'grid';
+            partnerList.innerHTML = ''; // Clear any existing cards
+    
+            partners.forEach(partner => {
+                partnerList.innerHTML += createPartnerCard(partner);
+            });
+        }, 2500);
+    };
+    
+    // Call modal logic (already provided)
+    function callPartner(phone, name, avatarUrl) {
+        const callLogo = document.getElementById('partnerAvatar');
+        const callMessage = document.getElementById('callMessage');
+        const trackingCode = document.getElementById('trackingCode');
+        const trackBtn = document.getElementById('trackBtn');
+        const callModal = document.getElementById('callModal');
+        const callAnimation = document.querySelector('.calling-animation');
+    
+        callLogo.src = avatarUrl;
+        callMessage.innerHTML = `<img src="https://img.icons8.com/ios-filled/24/00FFFF/phone.png" style="margin-right: 10px;"/> Calling <span style="color:#00FFFF;">${name}</span>...`;
+        trackingCode.style.display = 'none';
+        trackBtn.style.display = 'none';
+        callAnimation.style.display = 'block';
+        callModal.style.display = 'flex';
+    
+        setTimeout(() => {
+            callMessage.textContent = 'Delivery Request Accepted';
+            const trackCode = `#${Math.floor(100000 + Math.random() * 900000)}`;
+            trackingCode.textContent = `Tracking Code: ${trackCode}`;
+            trackingCode.style.display = 'block';
+            callAnimation.style.display = 'none';
+            trackBtn.style.display = 'inline-block';
+            trackBtn.onclick = function() {
+                window.location.href = '/track.html';
+            };
+        }, 4000);
+    }
+    </script>
+    
+    <!-- Hamburger menu functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded, initializing hamburger menu");
+            
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const nav = document.querySelector('header nav');
+            
+            if (hamburgerMenu && nav) {
+                console.log("Found hamburger menu and nav elements");
+                
+                hamburgerMenu.addEventListener('click', function(e) {
+                    console.log("Hamburger clicked");
+                    e.stopPropagation(); // Prevent event bubbling
+                    hamburgerMenu.classList.toggle('active');
+                    nav.classList.toggle('active');
+                    
+                    // Prevent body scrolling when menu is open
+                    if (nav.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                });
+                
+                // Close menu when clicking on links
+                const navLinks = nav.querySelectorAll('a, button');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        hamburgerMenu.classList.remove('active');
+                        nav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!nav.contains(event.target) && 
+                        !hamburgerMenu.contains(event.target) && 
+                        nav.classList.contains('active')) {
+                        hamburgerMenu.classList.remove('active');
+                        nav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            } else {
+                console.error("Could not find hamburger menu or nav elements");
+            }
+        });
+    </script>
+</body>
+</html>
